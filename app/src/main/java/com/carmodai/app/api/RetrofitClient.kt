@@ -18,7 +18,7 @@ object RetrofitClient {
         .writeTimeout(60, TimeUnit.SECONDS)
         .build()
 
-        // WOW SOOOO COOLLLLL
+        ipa update
 
     val instance: OpenAIService by lazy {
         Retrofit.Builder()
