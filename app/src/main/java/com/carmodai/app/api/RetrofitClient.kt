@@ -18,7 +18,7 @@ object RetrofitClient {
         .writeTimeout(60, TimeUnit.SECONDS)
         .build()
 
-// remove jeely
+// fixed the code, learning how to use git
 
     val instance: OpenAIService by lazy {
         Retrofit.Builder()
