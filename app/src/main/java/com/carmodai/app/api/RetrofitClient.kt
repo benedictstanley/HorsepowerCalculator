@@ -18,6 +18,8 @@ object RetrofitClient {
         .writeTimeout(60, TimeUnit.SECONDS)
         .build()
 
+        // i am jeely, are you?
+
     val instance: OpenAIService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
