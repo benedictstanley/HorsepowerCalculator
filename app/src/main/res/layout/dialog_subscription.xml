@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/surface_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Out of Fuel?"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/carbon_grey"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You've used all your free AI calculations. Refuel now to keep building!"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Basic Plan -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardBasic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strokeColor="#DDDDDD"
+            app:strokeWidth="1dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@android:color/white"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Basic Refuel"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/carbon_grey"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 More Calculations"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+ 1 Dyno Run"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_red"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$3.00"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/primary_red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/mo"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Pro Plan -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strokeColor="@color/primary_red"
+            app:strokeWidth="2dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#FFF0F0"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unlimited Turbo"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/carbon_grey"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unlimited Calcs &amp; Dyno"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$10.00"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/primary_red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/mo"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- VIP Plan -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardVip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strokeColor="@color/vip_gold"
+            app:strokeWidth="3dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/vip_bg"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VIP Ultimate"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/carbon_grey"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unlimited Dyno &amp; Early Updates"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Free Raffles, Gifts &amp; More"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$50.00"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/primary_red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/mo"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maybe Later"
+            android:textColor="#666666"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

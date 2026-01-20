@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CarModsAI" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colors -->
+        <item name="colorPrimary">@color/primary_red</item>
+        <item name="colorPrimaryVariant">@color/primary_red_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <item name="colorSecondary">@color/carbon_grey</item>
+        <item name="colorSecondaryVariant">@color/metal_grey</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        <item name="android:statusBarColor">@color/primary_red_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Typography & Shape adjustments can go here -->
+    </style>
+
+    <style name="Theme.CarModsAI" parent="Base.Theme.CarModsAI" />
+</resources>

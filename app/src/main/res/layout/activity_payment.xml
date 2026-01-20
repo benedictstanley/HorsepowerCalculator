@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Order Summary -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_light"
+            android:layout_marginBottom="24dp">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                
+                <TextView
+                    android:id="@+id/tvPlanName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Basic Plan"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/carbon_grey"/>
+                    
+                <TextView
+                    android:id="@+id/tvPlanPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$1.00 / month"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary_red"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Method"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgPaymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+            
+            <RadioButton
+                android:id="@+id/rbCreditCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Credit / Debit Card"
+                android:textColor="@color/black"
+                android:buttonTint="@color/black"
+                android:checked="true"/>
+                
+            <RadioButton
+                android:id="@+id/rbPaypal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PayPal"
+                android:textColor="@color/black"
+                android:buttonTint="@color/black"/>
+        </RadioGroup>
+
+        <!-- Credit Card Form -->
+        <LinearLayout
+            android:id="@+id/layoutCreditCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Card Number"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/black"
+                app:boxStrokeColor="@color/black"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCardNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:maxLength="16"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="MM/YY"
+                    android:textColorHint="@color/black"
+                    app:hintTextColor="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginEnd="8dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etExpiry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:inputType="datetime"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="CVV"
+                    android:textColorHint="@color/black"
+                    app:hintTextColor="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginStart="8dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCvv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:maxLength="3"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- PayPal Form -->
+        <LinearLayout
+            android:id="@+id/layoutPaypal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You will be redirected to PayPal to complete your purchase securely."
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/btnPaypalAction"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Pay with PayPal"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:backgroundTint="#0070BA"
+                app:cornerRadius="4dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnPayNow"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Pay Now"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/primary_red"
+            app:cornerRadius="12dp"
+            android:layout_marginTop="32dp"/>
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/composeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"/>
+
+    </LinearLayout>
+</ScrollView>

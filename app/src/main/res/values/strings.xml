@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CAR MOD AI</string>
+    <string name="calculate_hp">Calculate HP</string>
+    <string name="year_hint">Year</string>
+    <string name="make_hint">Make</string>
+    <string name="model_hint">Model</string>
+    <string name="base_hp_hint">Enter Base HP</string>
+    <string name="mods_hint">Enter Mods (comma separated)</string>
+    <string name="result_placeholder">Estimated HP will appear here</string>
+</resources>

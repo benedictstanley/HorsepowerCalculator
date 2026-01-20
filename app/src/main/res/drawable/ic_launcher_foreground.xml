@@ -1,0 +1,53 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Graph Group (Scaled Up) -->
+    <group
+        android:pivotX="54"
+        android:pivotY="50"
+        android:scaleX="0.7"
+        android:scaleY="0.7">
+        
+        <!-- Graph Line (Smaller) -->
+        <path
+            android:fillColor="#FF1744"
+            android:pathData="M32,63 L40,52 L50,58 L68,38 L74,44 L74,63 L32,63 Z"/>
+            
+        <!-- Axes (Smaller) -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M30,35 L30,65 L78,65 L78,63 L32,63 L32,35 Z"/>
+    </group>
+        
+    <!-- Text Group (Moved Up) -->
+    <group
+        android:pivotX="52"
+        android:pivotY="86"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:translateX="2"
+        android:translateY="-20">
+        
+        <!-- Text: DYNO (Simulated with paths for compatibility) -->
+        <!-- D -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M28,80 L28,92 L34,92 C37,92 38,90 38,86 C38,82 37,80 34,80 L28,80 M30,82 L34,82 C35,82 36,83 36,86 C36,89 35,90 34,90 L30,90 L30,82"/>
+        <!-- Y -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M42,80 L45,86 L48,80 L50,80 L46,88 L46,92 L44,92 L44,88 L40,80 Z"/>
+        <!-- N -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M54,80 L56,80 L60,88 L60,80 L62,80 L62,92 L60,92 L56,84 L56,92 L54,92 Z"/>
+        <!-- O -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M68,80 L76,80 L76,92 L68,92 Z M70,82 L70,90 L74,90 L74,82 Z"/>
+    </group>
+
+</vector>
