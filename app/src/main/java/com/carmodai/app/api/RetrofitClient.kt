@@ -18,7 +18,7 @@ object RetrofitClient {
         .writeTimeout(60, TimeUnit.SECONDS)
         .build()
 
-// fixed the code, learning how to use git
+        // WOW SOOOO COOLLLLL
 
     val instance: OpenAIService by lazy {
         Retrofit.Builder()
