@@ -1,120 +1,111 @@
 import SwiftUI
-// NOTE: You must add the Stripe iOS SDK via Swift Package Manager for this to work.
-// Search for "https://github.com/stripe/stripe-ios" and add "StripePaymentSheet".
 import StripePaymentSheet
 
 struct SubscriptionView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    
     @State private var paymentSheet: PaymentSheet?
-    @State private var errorMessage: String?
+    @State private var paymentResult: PaymentSheetResult?
     @State private var isLoading = false
+    @State private var errorMessage: String?
+    
+    // Price IDs (Replace with your actual Stripe Price IDs if different)
+    let priceIdPro = "price_1Qj2..." // TODO: Add real Price ID for Pro
+    let priceIdVIP = "price_1Qj2..." // TODO: Add real Price ID for VIP
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                if let user = authViewModel.currentUser {
-                    Text("Current Plan: \(user.planName)")
-                        .font(.title)
-                    
-                    Text("Calculations Left: \(user.isUnlimited ? "Unlimited" : "\(user.calculationsLeft)")")
-                    Text("Dyno Runs Left: \(user.isUnlimited ? "Unlimited" : "\(user.dynoRunsLeft)")")
-                    
-                    if let error = errorMessage {
-                        Text(error)
-                            .foregroundColor(.red)
-                            .padding()
-                    }
-                    
-                    if isLoading {
-                        ProgressView()
-                    } else {
-                        Button("Upgrade to Pro ($5.00)") {
-                            preparePayment(amount: 500, planName: "Pro Plan")
-                        }
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                    }
-                    
-                    if let paymentSheet = paymentSheet {
-                        PaymentSheet.PaymentButton(
-                            paymentSheet: paymentSheet,
-                            onCompletion: onPaymentCompletion
-                        ) {
-                            Text("Pay Now")
-                                .bold()
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .cornerRadius(10)
-                        }
-                        .padding()
-                    }
-                    
-                } else {
-                    Text("Please log in to view subscription.")
-                }
+        VStack(spacing: 20) {
+            Text("Upgrade Your Plan")
+                .font(.largeTitle)
+                .bold()
+            
+            if let user = authViewModel.currentUser {
+                Text("Current Plan: \(user.planName)")
+                    .foregroundColor(.gray)
                 
-                Button("Logout") {
-                    authViewModel.logout()
+                if !user.isUnlimited {
+                    Button(action: {
+                        preparePayment(plan: "Pro")
+                    }) {
+                        Text("Upgrade to Pro ($5/mo)")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .disabled(isLoading)
+                } else {
+                    Text("You are on an Unlimited Plan!")
+                        .foregroundColor(.green)
                 }
-                .foregroundColor(.red)
             }
-            .navigationTitle("Subscription")
+            
+            if isLoading {
+                ProgressView()
+            }
+            
+            if let error = errorMessage {
+                Text(error)
+                    .foregroundColor(.red)
+                    .font(.caption)
+            }
+            
+            if let result = paymentResult {
+                switch result {
+                case .completed:
+                    Text("Payment Complete!").foregroundColor(.green)
+                case .canceled:
+                    Text("Payment Canceled").foregroundColor(.orange)
+                case .failed(let error):
+                    Text("Payment Failed: \(error.localizedDescription)").foregroundColor(.red)
+                }
+            }
         }
+        .padding()
+        // Present the Payment Sheet
+        .paymentSheet(isPresented: $paymentSheet, onCompletion: { result in
+            paymentResult = result
+            if case .completed = result {
+                authViewModel.upgradePlan(to: "Pro") // Update local state
+            }
+        })
     }
     
-    func preparePayment(amount: Int, planName: String) {
+    func preparePayment(plan: String) {
+        guard let email = authViewModel.currentUser?.email else { return }
         isLoading = true
         errorMessage = nil
         
-        APIService.shared.createPaymentSheet(amount: amount, planName: planName) { result in
-            isLoading = false
-            
-            switch result {
-            case .success(let json):
-                guard let customerId = json["customer"] as? String,
-                      let ephemeralKey = json["ephemeralKey"] as? String,
-                      let clientSecret = json["paymentIntent"] as? String,
-                      let publishableKey = json["publishableKey"] as? String else {
-                    errorMessage = "Invalid response from server"
-                    return
+        Task {
+            do {
+                // 1. Create Customer
+                let customerId = try await APIService.shared.createCustomer(email: email)
+                
+                // 2. Create Subscription (Get Client Secret)
+                // Using a placeholder Price ID here. You must update this!
+                let priceId = (plan == "Pro") ? "price_1Qj2K0H5X7..." : "price_vip..." 
+                let response = try await APIService.shared.createSubscription(customerId: customerId, priceId: priceId)
+                
+                if let clientSecret = response.clientSecret {
+                    // 3. Configure Payment Sheet
+                    var configuration = PaymentSheet.Configuration()
+                    configuration.merchantDisplayName = "Car Mods AI"
+                    configuration.allowsDelayedPaymentMethods = true
+                    
+                    DispatchQueue.main.async {
+                        self.paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret, configuration: configuration)
+                        self.isLoading = false
+                    }
+                } else {
+                    throw NSError(domain: "App", code: 0, userInfo: [NSLocalizedDescriptionKey: "No client secret returned"])
                 }
                 
-                STPAPIClient.shared.publishableKey = publishableKey
-                
-                var configuration = PaymentSheet.Configuration()
-                configuration.merchantDisplayName = "CarModsAI"
-                configuration.customer = .init(id: customerId, ephemeralKeySecret: ephemeralKey)
-                
-                self.paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret, configuration: configuration)
-                
-            case .failure(let error):
-                errorMessage = error.localizedDescription
+            } catch {
+                DispatchQueue.main.async {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
-        }
-    }
-    
-    func onPaymentCompletion(result: PaymentSheetResult) {
-        switch result {
-        case .completed:
-            // Payment successful, update user plan locally
-            // In a real app, you should verify via webhook or check status with backend
-            authViewModel.updateUserPlan(
-                planName: "Pro Plan",
-                isUnlimited: true,
-                calculations: 9999,
-                dynoRuns: 9999
-            )
-            self.paymentSheet = nil
-            print("Payment complete")
-        case .canceled:
-            print("Payment canceled")
-        case .failed(let error):
-            errorMessage = error.localizedDescription
         }
     }
 }

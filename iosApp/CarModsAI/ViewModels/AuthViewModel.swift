@@ -1,16 +1,6 @@
 import Foundation
 import SwiftUI
-
-// MARK: - User Model
-struct User: Codable, Identifiable {
-    var id: String { email }
-    let email: String
-    var planName: String
-    var calculationsLeft: Int
-    var isUnlimited: Bool
-    
-    static let empty = User(email: "", planName: "Free", calculationsLeft: 3, isUnlimited: false)
-}
+import Combine
 
 // MARK: - ViewModel
 class AuthViewModel: ObservableObject {
@@ -33,7 +23,13 @@ class AuthViewModel: ObservableObject {
             self.currentUser = saved
         } else {
             // New User
-            self.currentUser = User(email: email, planName: "Free", calculationsLeft: 3, isUnlimited: false)
+            // Note: Order of arguments matches Models/User.swift
+            self.currentUser = User(
+                email: email, 
+                planName: "Free", 
+                isUnlimited: false, 
+                calculationsLeft: 3
+            )
         }
         
         self.isLoggedIn = true
