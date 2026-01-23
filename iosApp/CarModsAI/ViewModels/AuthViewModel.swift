@@ -1,31 +1,41 @@
 import Foundation
-import Combine
+import SwiftUI
 
+// MARK: - User Model
+struct User: Codable, Identifiable {
+    var id: String { email }
+    let email: String
+    var planName: String
+    var calculationsLeft: Int
+    var isUnlimited: Bool
+    
+    static let empty = User(email: "", planName: "Free", calculationsLeft: 3, isUnlimited: false)
+}
+
+// MARK: - ViewModel
 class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var isLoggedIn: Bool = false
+    @Published var errorMessage: String?
     
-    private let userDefaultsKey = "saved_user_data"
+    private let userDefaultsKey = "saved_user"
     
     init() {
         loadUser()
     }
     
     func login(email: String) {
-        // In a real app, you'd verify with backend.
-        // For this offline-first/local MVP, we just create/load the user.
+        // In a real app with backend auth, you would verify credentials here.
+        // For this port (matching Android), we simulate local login.
         
-        let newUser = User(
-            email: email,
-            phoneNumber: "",
-            planName: "Free",
-            isUnlimited: false,
-            calculationsLeft: 3,
-            dynoRunsLeft: 0,
-            subscriptionExpiry: 0
-        )
+        // Check if we have a saved user with this email, else create new
+        if let saved = loadUserFromDisk(email: email) {
+            self.currentUser = saved
+        } else {
+            // New User
+            self.currentUser = User(email: email, planName: "Free", calculationsLeft: 3, isUnlimited: false)
+        }
         
-        self.currentUser = newUser
         self.isLoggedIn = true
         saveUser()
     }
@@ -36,29 +46,46 @@ class AuthViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: userDefaultsKey)
     }
     
-    func updateUserPlan(planName: String, isUnlimited: Bool, calculations: Int, dynoRuns: Int) {
+    func upgradePlan(to planName: String) {
         guard var user = currentUser else { return }
         user.planName = planName
-        user.isUnlimited = isUnlimited
-        user.calculationsLeft = calculations
-        user.dynoRunsLeft = dynoRuns
-        
+        user.isUnlimited = true
+        user.calculationsLeft = 999999
         self.currentUser = user
         saveUser()
     }
     
+    func decrementCalculation() {
+        guard var user = currentUser, !user.isUnlimited else { return }
+        if user.calculationsLeft > 0 {
+            user.calculationsLeft -= 1
+            self.currentUser = user
+            saveUser()
+        }
+    }
+    
+    // MARK: - Persistence
     private func saveUser() {
-        if let user = currentUser,
-           let encoded = try? JSONEncoder().encode(user) {
-            UserDefaults.standard.set(encoded, forKey: userDefaultsKey)
+        if let user = currentUser, let data = try? JSONEncoder().encode(user) {
+            UserDefaults.standard.set(data, forKey: userDefaultsKey)
         }
     }
     
     private func loadUser() {
-        if let savedData = UserDefaults.standard.data(forKey: userDefaultsKey),
-           let loadedUser = try? JSONDecoder().decode(User.self, from: savedData) {
-            self.currentUser = loadedUser
+        if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+           let user = try? JSONDecoder().decode(User.self, from: data) {
+            self.currentUser = user
             self.isLoggedIn = true
         }
+    }
+    
+    private func loadUserFromDisk(email: String) -> User? {
+        // This is where you would normally look up in a database.
+        // For now, we just return the current loaded user if emails match, 
+        // effectively supporting single-user session on iOS for simplicity.
+        if let current = currentUser, current.email == email {
+            return current
+        }
+        return nil
     }
 }
